@@ -1,6 +1,6 @@
 {
   "name": "sdd-boilerplate",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "SDD CLI — Spec-Driven Development with AI. Scaffold projects, write specs, generate code via opencode engine.",
   "type": "module",
   "bin": {
