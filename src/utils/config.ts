@@ -1,9 +1,5 @@
-import { readFileSync, existsSync } from 'node:fs';
-import { readdir } from 'node:fs/promises';
-import { join, dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
-
-const __dirname = dirname(fileURLToPath(import.meta.url));
+import { readFileSync, existsSync, mkdirSync, writeFileSync } from 'node:fs';
+import { join } from 'node:path';
 
 export interface SddConfig {
   projectName: string;
@@ -33,8 +29,7 @@ export function loadConfig(cwd: string): SddConfig {
 export function saveConfig(cwd: string, config: SddConfig): void {
   const configDir = join(cwd, '.sdd');
   if (!existsSync(configDir)) {
-    import('node:fs').then(fs => fs.mkdirSync(configDir, { recursive: true }));
+    mkdirSync(configDir, { recursive: true });
   }
-  const configPath = join(configDir, 'config.json');
-  import('node:fs').then(fs => fs.writeFileSync(configPath, JSON.stringify(config, null, 2), 'utf-8'));
+  writeFileSync(join(configDir, 'config.json'), JSON.stringify(config, null, 2), 'utf-8');
 }

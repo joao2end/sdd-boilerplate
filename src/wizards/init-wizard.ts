@@ -11,6 +11,9 @@ import { join } from 'node:path';
 import { mkdirSync, existsSync } from 'node:fs';
 import { SddConfig, saveConfig } from '../utils/config.js';
 import { generateFile } from '../generators/spec-generator.js';
+import { generateProjectScaffold } from '../generators/project-generator.js';
+import { generateHooks } from '../generators/hooks-generator.js';
+import { generateLimiters } from '../generators/limiters-generator.js';
 import { runOpencode } from '../opencode/runner.js';
 import { readTemplate } from '../utils/template-resolver.js';
 
@@ -170,28 +173,40 @@ export async function initWizard(): Promise<{ projectDir: string; config: SddCon
 
   saveConfig(projectDir, config);
 
-  const stackStr = `${runtime}/${language} + ${framework} + ${validation} + ${database}(${orm}) + ${testing}`;
-
-  await runOpencode({
-    promptTemplate: readTemplate('prompts/init-project.md'),
-    replacements: {
-      projectName,
-      description,
-      stack: stackStr,
-      framework,
-      orm,
-      validation,
-      testing,
-      domains: domains.join(', '),
-      features: initialFeatures.join(', '),
-      caching,
-      auth,
-    },
-    cwd: projectDir,
-  });
-
+  // Generate scaffolding FIRST so project is functional even without AI
+  generateProjectScaffold(projectDir, config);
+  generateHooks(projectDir);
+  generateLimiters(projectDir, config);
   setupDomainSpecs(projectDir, domains, config);
   setupFeatureSpecs(projectDir, initialFeatures, domains, config);
+
+  const stackStr = `${runtime}/${language} + ${framework} + ${validation} + ${database}(${orm}) + ${testing}`;
+
+  const runAI = await confirm({
+    message: 'Run opencode AI setup now? (generates framework code)',
+    initialValue: true,
+  }) as boolean;
+  if (isCancel(runAI)) cancel('Cancelled');
+
+  if (runAI) {
+    await runOpencode({
+      promptTemplate: readTemplate('prompts/init-project.md'),
+      replacements: {
+        projectName,
+        description,
+        stack: stackStr,
+        framework,
+        orm,
+        validation,
+        testing,
+        domains: domains.join(', '),
+        features: initialFeatures.join(', '),
+        caching,
+        auth,
+      },
+      cwd: projectDir,
+    });
+  }
 
   outro(`✨ Project "${projectName}" initialized with SDD!`);
   outro(`   cd ${projectName} && npm install`);
