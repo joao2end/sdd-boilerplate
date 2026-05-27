@@ -18,12 +18,9 @@ Corrija o bug descrito abaixo, seguindo o workflow SDD.
 ## Descrição do Bug
 {{bugDescription}}
 
-## Spec Relacionada
-{{specContent}}
-
 ## Estrutura
-1. Identifique a spec em specs/ que cobre esta funcionalidade
-2. Corrija spec se necessário
+1. Leia a spec em anexo para entender a funcionalidade
+2. Corrija a spec se necessário
 3. Escreva teste de regressão
 4. Corrija o código
 5. Verifique: typecheck + lint + testes

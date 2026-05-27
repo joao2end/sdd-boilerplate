@@ -9,7 +9,7 @@ import {
   spinner,
 } from '@clack/prompts';
 import { join } from 'node:path';
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync } from 'node:fs';
 import { loadConfig } from '../utils/config.js';
 import { addTraceEntry } from '../utils/traceability.js';
 import { parseSpec } from '../parsers/spec-parser.js';
@@ -45,7 +45,6 @@ export async function bugfixWizard(bugDescription: string): Promise<void> {
   }) as string;
   if (isCancel(details)) cancel('Cancelled');
 
-  const specContent = readFileSync(specPath, 'utf-8');
   const promptContent = readTemplate('prompts/bugfix-from-spec.md');
 
   const spin = spinner();
@@ -56,7 +55,6 @@ export async function bugfixWizard(bugDescription: string): Promise<void> {
     contextFiles: [specPath],
     replacements: {
       bugDescription: details,
-      specContent,
       stack: `${config.runtime}/${config.language} + ${config.framework} + ${config.validation} + ${config.database}(${config.orm}) + ${config.testing}`,
       framework: config.framework,
     },

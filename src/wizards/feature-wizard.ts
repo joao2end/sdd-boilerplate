@@ -10,7 +10,7 @@ import {
   spinner,
 } from '@clack/prompts';
 import { join, relative } from 'node:path';
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync } from 'node:fs';
 import { loadConfig } from '../utils/config.js';
 import { addTraceEntry } from '../utils/traceability.js';
 import { generateFeatureSpec, FeatureSpecData } from '../generators/spec-generator.js';
@@ -39,7 +39,6 @@ export async function featureWizard(name: string, domainHint?: string): Promise<
           orm: config.orm,
           validation: config.validation,
           testing: config.testing,
-          specContent: readFileSync(specPath, 'utf-8'),
         },
         cwd,
       });
@@ -169,7 +168,7 @@ export async function featureWizard(name: string, domainHint?: string): Promise<
     const promptContent = readTemplate('prompts/implement-from-spec.md');
 
     runOpencode({
-      promptTemplate: promptContent,
+      promptTemplate: readTemplate('prompts/implement-from-spec.md'),
       contextFiles: [specPath],
       replacements: {
         name,
@@ -179,7 +178,6 @@ export async function featureWizard(name: string, domainHint?: string): Promise<
         orm: config.orm,
         validation: config.validation,
         testing: config.testing,
-        specContent: readFileSync(specPath, 'utf-8'),
       },
       cwd,
     });

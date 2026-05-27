@@ -180,7 +180,6 @@ export async function initWizard(): Promise<{ projectDir: string; config: SddCon
   setupDomainSpecs(projectDir, domains, config);
   setupFeatureSpecs(projectDir, initialFeatures, domains, config);
 
-  const stackStr = `${runtime}/${language} + ${framework} + ${validation} + ${database}(${orm}) + ${testing}`;
 
   const runAI = await confirm({
     message: 'Run opencode AI setup now? (generates framework code)',
@@ -191,19 +190,10 @@ export async function initWizard(): Promise<{ projectDir: string; config: SddCon
   if (runAI) {
     await runOpencode({
       promptTemplate: readTemplate('prompts/init-project.md'),
-      replacements: {
-        projectName,
-        description,
-        stack: stackStr,
-        framework,
-        orm,
-        validation,
-        testing,
-        domains: domains.join(', '),
-        features: initialFeatures.join(', '),
-        caching,
-        auth,
-      },
+      contextFiles: [
+        join(projectDir, '.sdd', 'config.json'),
+      ],
+      replacements: {},
       cwd: projectDir,
     });
   }

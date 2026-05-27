@@ -1,5 +1,6 @@
 import { spawnSync } from 'node:child_process';
-import { readFileSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { join } from 'node:path';
 
 export interface OpencodeOptions {
   promptTemplate: string;
@@ -23,7 +24,13 @@ export function runOpencode(options: OpencodeOptions): void {
     }
   }
 
-  const result = spawnSync('opencode', [prompt], {
+  // Write prompt to a file in the project for reference and to support
+  // opencode reading it directly (avoids CLI argument length limits)
+  const sddDir = join(cwd, '.sdd');
+  mkdirSync(sddDir, { recursive: true });
+  writeFileSync(join(sddDir, 'prompt.md'), prompt, 'utf-8');
+
+  const result = spawnSync('opencode', ['--prompt', prompt], {
     cwd,
     stdio: 'inherit',
     shell: false,

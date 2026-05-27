@@ -9,7 +9,7 @@ import {
   spinner,
 } from '@clack/prompts';
 import { join } from 'node:path';
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync } from 'node:fs';
 import { loadConfig } from '../utils/config.js';
 import { parseSpec } from '../parsers/spec-parser.js';
 import { runOpencode } from '../opencode/runner.js';
@@ -43,7 +43,6 @@ export async function refactorWizard(name: string, domainHint?: string): Promise
   }) as string;
   if (isCancel(changes)) cancel('Cancelled');
 
-  const specContent = readFileSync(specPath, 'utf-8');
   const promptContent = readTemplate('prompts/refactor-from-spec.md');
 
   const spin = spinner();
@@ -57,7 +56,6 @@ export async function refactorWizard(name: string, domainHint?: string): Promise
       domain: domainHint || (parsed?.metadata.domain || 'core'),
       stack: `${config.runtime}/${config.language} + ${config.framework} + ${config.validation} + ${config.database}(${config.orm}) + ${config.testing}`,
       framework: config.framework,
-      specContent,
       changes,
     },
     cwd,

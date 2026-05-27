@@ -9,7 +9,7 @@ Você é um engenheiro de software especialista em Clean Architecture + DDD.
 - Testes: {{testing}}
 
 ## Tarefa
-Implemente a feature descrita na spec abaixo.
+Implemente a feature descrita na spec em anexo.
 
 ## Regras OBRIGATÓRIAS
 1. Siga EXATAMENTE os tipos e interfaces definidos na spec
@@ -23,13 +23,10 @@ Implemente a feature descrita na spec abaixo.
 ## Estrutura Esperada
 Para {{domain}}/{{name}}:
 - src/domain/{{domain}}/entities/*.ts
-- src/application/{{name}}/command.ts
-- src/application/{{name}}/handler.ts
-- src/application/{{name}}/port.ts
+- src/application/{{domain}}/command.ts
+- src/application/{{domain}}/handler.ts
+- src/application/{{domain}}/port.ts
 - src/infrastructure/persistence/*-repository.ts
-
-## Spec
-{{specContent}}
 
 ## Após implementar
 1. Atualize o .sdd/traceability.json marcando a implementação como concluída
