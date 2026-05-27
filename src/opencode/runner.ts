@@ -1,7 +1,5 @@
-import { execSync } from 'node:child_process';
-import { readFileSync, writeFileSync, mkdtempSync } from 'node:fs';
-import { join } from 'node:path';
-import { tmpdir } from 'node:os';
+import { spawnSync } from 'node:child_process';
+import { readFileSync } from 'node:fs';
 
 export interface OpencodeOptions {
   promptTemplate: string;
@@ -25,18 +23,17 @@ export function runOpencode(options: OpencodeOptions): void {
     }
   }
 
-  const tmpDir = mkdtempSync(join(tmpdir(), 'sdd-'));
-  const promptFile = join(tmpDir, 'prompt.txt');
-  writeFileSync(promptFile, prompt, 'utf-8');
+  const result = spawnSync('opencode', [prompt], {
+    cwd,
+    stdio: 'inherit',
+    shell: false,
+  });
 
-  try {
-    execSync(`opencode "$(cat '${promptFile}')"`, {
-      cwd,
-      stdio: 'inherit',
-    });
-  } finally {
-    try {
-      import('node:fs').then(fs => fs.rmSync(tmpDir, { recursive: true, force: true }));
-    } catch { }
+  if (result.error) {
+    throw result.error;
+  }
+
+  if (result.status !== 0) {
+    throw new Error(`opencode exited with code ${result.status}`);
   }
 }
