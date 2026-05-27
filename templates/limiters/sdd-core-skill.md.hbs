@@ -1,0 +1,40 @@
+---
+name: sdd-core
+description: |
+  Use when the user mentions specs, SDD, especificação, implementação,
+  feature, or any request to write code without a spec first.
+  This is the CORE SDD methodology skill.
+---
+
+# SDD Core — Spec-Driven Development Rules
+
+## When triggered
+- User asks to implement something WITHOUT referencing a spec
+- User says "faz", "implementa", "cria", "código", "code", "feature"
+- User mentions "spec" or "especificação"
+
+## Mandatory workflow
+
+```
+1. VERIFY: Does a spec exist in specs/ for this feature?
+   ├── YES → Read the spec, use it as source of truth
+   └── NO  → STOP. Ask user: "Quer criar uma spec primeiro?"
+   
+2. GENERATE: Based on the spec
+   - Follow types and interfaces EXACTLY
+   - Implement ALL business rules
+   - Handle ALL error scenarios
+   
+3. VALIDATE: Check that code matches spec
+   - Types match
+   - Rules implemented
+   - All scenarios covered
+```
+
+## Anti-patterns to BLOCK
+| Anti-pattern | Block it by |
+|-------------|-------------|
+| Generate code without spec | Refuse: "SDD requires a spec first" |
+| Add fields not in spec | Refuse: "Not in spec" |
+| Ignore business rules | Refuse: "Spec says otherwise" |
+| Skip validation | Always validate against spec |

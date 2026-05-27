@@ -1,0 +1,30 @@
+---
+name: sdd-generate
+description: |
+  Use when generating implementation code from specs.
+  Activates on "generate", "implement", "código", "code from spec".
+---
+
+# SDD Generate — Code Generation from Specs
+
+## Rules
+1. Read the spec section by section
+2. Generate ONE file per logical unit (entity, command, handler, test)
+3. Follow the project's framework ({{framework}}) patterns
+4. Use the project's validation library
+5. Generate tests for ALL scenarios in the spec
+
+## Code structure
+```
+src/domain/{domain}/entities/{entity}.ts
+src/application/{feature}/command.ts
+src/application/{feature}/handler.ts
+tests/unit/{feature}/handler.test.ts
+```
+
+## Validation checklist
+- [ ] Types match spec exactly
+- [ ] All business rules implemented
+- [ ] All error scenarios handled
+- [ ] Tests cover happy path, alternatives, errors
+- [ ] No extra functionality added

@@ -1,0 +1,61 @@
+{{!-- Domain Spec Template — 7 seções obrigatórias --}}
+---
+name: {{name}}
+domain: {{domain}}
+type: {{type}}
+version: 1.0.0
+status: draft
+---
+
+# {{name}}
+
+## Description
+{{description}}
+
+## State
+| Property | Type | Required | Description |
+|----------|------|----------|-------------|
+{{#each state}}
+| {{name}} | {{type}} | {{#if required}}yes{{else}}no{{/if}} | {{description}} |
+{{/each}}
+
+## Behavior
+{{#each behavior}}
+### {{method}}({{params}})
+- **Description**: {{description}}
+{{#if preconditions}}
+- **Preconditions**:
+{{#each preconditions}}
+  - {{this}}
+{{/each}}
+{{/if}}
+{{#if rules}}
+- **Business Rules**:
+{{#each rules}}
+  - {{this}}
+{{/each}}
+{{/if}}
+{{#if events}}
+- **Events**:
+{{#each events}}
+  - {{this}}
+{{/each}}
+{{/if}}
+{{#if throws}}
+- **Throws**:
+{{#each throws}}
+  - {{this}}
+{{/each}}
+{{/if}}
+
+{{/each}}
+
+## Invariants
+{{#each invariants}}
+- {{this}}
+{{/each}}
+
+## Validation Rules
+{{#each validationRules}}
+- {{this}}
+{{/each}}

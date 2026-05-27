@@ -1,0 +1,42 @@
+{
+  "name": "sdd-boilerplate",
+  "version": "0.1.0",
+  "description": "SDD CLI — Spec-Driven Development with AI. Scaffold projects, write specs, generate code via opencode engine.",
+  "type": "module",
+  "bin": {
+    "sdd-boilerplate": "dist/index.js"
+  },
+  "files": [
+    "dist",
+    "templates"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format esm --clean --out-dir dist",
+    "dev": "tsup src/index.ts --format esm --watch --out-dir dist",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "@clack/prompts": "^0.10.1",
+    "commander": "^13.1.0",
+    "handlebars": "^4.7.8",
+    "picocolors": "^1.1.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.3",
+    "tsup": "^8.4.0",
+    "typescript": "^5.8.3"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "keywords": [
+    "sdd",
+    "spec-driven-development",
+    "opencode",
+    "ai",
+    "boilerplate",
+    "scaffold"
+  ],
+  "license": "MIT"
+}

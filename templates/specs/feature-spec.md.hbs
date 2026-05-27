@@ -1,0 +1,66 @@
+{{!-- Feature Spec Template — 7 seções obrigatórias --}}
+---
+name: {{name}}
+domain: {{domain}}
+type: feature
+version: 1.0.0
+status: draft
+dependencies: []
+---
+
+# {{name}}
+
+## Description
+{{description}}
+
+## Main Success Scenario
+{{mainScenario}}
+
+## Preconditions
+{{#each preconditions}}
+- {{this}}
+{{/each}}
+
+## Inputs
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+{{#each inputs}}
+| {{name}} | {{type}} | {{#if required}}yes{{else}}no{{/if}} | {{description}} |
+{{/each}}
+
+## Outputs
+| Name | Type | Description |
+|------|------|-------------|
+{{#each outputs}}
+| {{name}} | {{type}} | {{description}} |
+{{/each}}
+
+## Business Rules
+{{#each businessRules}}
+- {{this}}
+{{/each}}
+
+## Alternative Flows
+{{#each alternativeFlows}}
+### {{name}}
+- **Trigger**: {{trigger}}
+- **Steps**: {{steps}}
+
+{{/each}}
+
+## Error Scenarios
+| Error | When | Message |
+|-------|------|---------|
+{{#each errors}}
+| {{name}} | {{when}} | {{message}} |
+{{/each}}
+
+## Examples
+```typescript
+{{example}}
+```
+
+## Constraints
+{{#each constraints}}
+- {{this}}
+{{/each}}

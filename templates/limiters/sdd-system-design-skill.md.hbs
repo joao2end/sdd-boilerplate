@@ -1,0 +1,41 @@
+---
+name: sdd-system-design
+description: |
+  Use when the user mentions architecture, system design, scalability,
+  database design, caching, or infrastructure decisions.
+---
+
+# SDD System Design Patterns
+
+## When triggered
+- User asks about architecture
+- Designing new aggregates or bounded contexts
+- Performance or scalability concerns
+- Database schema design
+
+## Decision trees
+
+### Database: {{database}}
+### Caching: {{caching}}
+### Auth: {{auth}}
+
+### Aggregate boundaries
+```
+Must change together atomically?
+├── YES → Same aggregate
+├── NO  → Different aggregates (reference by ID)
+├── >10 entities → Split it
+```
+
+### Entity vs Value Object
+```
+Has persistent unique identity?
+├── YES → Entity
+├── NO  → Value Object (immutable)
+```
+
+## Anti-patterns to avoid
+- Anemic domain model (entities as data bags)
+- Repository per table (should be per aggregate)
+- Leaking infrastructure into domain
+- Cross-aggregate transactions (use events)

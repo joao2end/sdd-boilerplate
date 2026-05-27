@@ -1,0 +1,33 @@
+# Project Instructions for AI
+
+## Project
+- Name: {{projectName}}
+- Description: {{description}}
+- Stack: {{runtime}}/{{language}} + {{framework}} + {{validation}} + {{orm}}
+- Architecture: Clean Architecture (domain → application → infrastructure)
+
+## CRITICAL RULE: Spec-Driven Development
+Nunca implemente código sem antes verificar se existe uma spec correspondente.
+
+- **Spec existe?** → Use-a como fonte da verdade. Siga tipos, regras e exemplos.
+- **Spec não existe?** → Pergunte ao usuário: "Quer criar uma spec primeiro?"
+- **Usuário pediu implementação direta?** → Explique que SDD requer spec primeiro.
+
+## Como os specs estão organizadas
+- `specs/00-system/` — Visão geral do sistema
+- `specs/01-domain/` — Entidades, value objects, agregados
+- `specs/02-features/` — Features e casos de uso
+
+## Gatilhos de redirecionamento
+- "implementa X", "faz X", "cria X" sem spec → redirecione para criar spec
+- "arruma bug", "corrige" → verifique spec do componente, sugira fluxo bugfix
+- "refatora", "melhora" → verifique spec, sugira atualizar spec primeiro
+
+## Convenções
+- Linguagem: {{language}}
+- Framework: {{framework}}
+- Validação: {{validation}}
+- ORM: {{orm}}
+- Testes: {{testing}}
+- Clean Architecture estrita
+- TypeScript estrito (quando aplicável)
