@@ -15,9 +15,15 @@ description: |
 
 ## Decision trees
 
+### Project type: {{projectType}}
+{{#if (or (eq projectType "frontend") (eq projectType "fullstack"))}}
+### Frontend: {{frontendFramework}}
+### Design system: {{designSystem}}
+{{/if}}
+{{#if (or (eq projectType "api") (eq projectType "fullstack"))}}
 ### Database: {{database}}
 ### Caching: {{caching}}
-### Auth: {{auth}}
+### Auth: {{auth}}{{/if}}
 
 ### Aggregate boundaries
 ```

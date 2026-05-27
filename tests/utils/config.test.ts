@@ -29,7 +29,10 @@ describe('config', () => {
       description: 'desc',
       runtime: 'node',
       language: 'typescript',
+      projectType: 'api',
       framework: 'fastify',
+      frontendFramework: 'none',
+      designSystem: 'none',
       validation: 'zod',
       database: 'postgresql',
       orm: 'drizzle',
@@ -50,7 +53,10 @@ describe('config', () => {
       description: 'My project',
       runtime: 'bun',
       language: 'typescript',
+      projectType: 'fullstack',
       framework: 'nestjs',
+      frontendFramework: 'react',
+      designSystem: 'shadcn',
       validation: 'zod',
       database: 'sqlite',
       orm: 'prisma',
@@ -64,7 +70,10 @@ describe('config', () => {
     const config = loadConfig(tmpDir);
     expect(config.projectName).toBe('my-project');
     expect(config.runtime).toBe('bun');
+    expect(config.projectType).toBe('fullstack');
     expect(config.framework).toBe('nestjs');
+    expect(config.frontendFramework).toBe('react');
+    expect(config.designSystem).toBe('shadcn');
     expect(config.domains).toEqual(['users']);
     expect(config.initialFeatures).toEqual(['create-user']);
     expect(config.auth).toBe('jwt');

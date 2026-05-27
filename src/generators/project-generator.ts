@@ -21,13 +21,26 @@ export function generateProjectScaffold(projectDir: string, config: SddConfig): 
     '.opencode/skills/sdd-system-design',
   ];
 
+  if (config.projectType === 'frontend' || config.projectType === 'fullstack') {
+    dirs.push(
+      'src/app',
+      'src/components',
+      'src/pages',
+      'src/lib',
+      'public',
+    );
+  }
+
   for (const dir of dirs) {
     mkdirSync(join(projectDir, dir), { recursive: true });
   }
 
-  writeFileSync(join(projectDir, 'src', 'index.ts'), [
+  const srcEntry = config.projectType === 'frontend'
+    ? join(projectDir, 'src', 'app', 'index.ts')
+    : join(projectDir, 'src', 'index.ts');
+  writeFileSync(srcEntry, [
     `// ${config.projectName} — ${config.description}`,
-    `// Stack: ${config.runtime}/${config.language} + ${config.framework}`,
+    `// Stack: ${config.runtime}/${config.language} + ${config.projectType === 'api' || config.projectType === 'fullstack' ? config.framework + ' + ' : ''}${config.frontendFramework !== 'none' ? config.frontendFramework : ''}`,
     '',
     `export const VERSION = '0.1.0';`,
     '',
@@ -36,31 +49,49 @@ export function generateProjectScaffold(projectDir: string, config: SddConfig): 
   const specsDir = join(projectDir, 'specs', '00-system');
   const systemOverviewPath = join(specsDir, 'system-overview.md');
   if (!existsSync(systemOverviewPath)) {
-    writeFileSync(systemOverviewPath, [
-      `# ${config.projectName}`,
-      '',
-      `> ${config.description}`,
-      '',
-      '## Stack',
+    const stackLines = [
       `- Runtime: ${config.runtime}`,
       `- Language: ${config.language}`,
-      `- Framework: ${config.framework}`,
+      `- Project type: ${config.projectType}`,
+    ];
+    if (config.projectType === 'api' || config.projectType === 'fullstack') {
+      stackLines.push(`- Backend framework: ${config.framework}`);
+    }
+    if (config.projectType === 'frontend' || config.projectType === 'fullstack') {
+      stackLines.push(`- Frontend framework: ${config.frontendFramework}`);
+      if (config.designSystem !== 'none') {
+        stackLines.push(`- Design system: ${config.designSystem}`);
+      }
+    }
+    stackLines.push(
       `- Validation: ${config.validation}`,
       `- Database: ${config.database}`,
       `- ORM: ${config.orm}`,
       `- Testing: ${config.testing}`,
       `- Caching: ${config.caching}`,
       `- Auth: ${config.auth}`,
+    );
+
+    writeFileSync(systemOverviewPath, [
+      `# ${config.projectName}`,
+      '',
+      `> ${config.description}`,
+      '',
+      '## Stack',
+      ...stackLines,
       '',
       '## Architecture',
-      '- Clean Architecture (domain → application → infrastructure)',
+      config.projectType === 'frontend'
+        ? '- Frontend SPA'
+        : config.projectType === 'fullstack'
+          ? '- Fullstack: backend (Clean Architecture) + frontend SPA'
+          : '- Clean Architecture (domain → application → infrastructure)',
       '- Spec-Driven Development (specs/ are source of truth)',
       '',
       '## Domains',
       config.domains.map(d => `- ${d}`).join('\n'),
       '',
       '## Conventions',
-      '- TypeScript strict mode',
       '- All code must have a corresponding spec',
       '- Tests follow AAA pattern',
       '',

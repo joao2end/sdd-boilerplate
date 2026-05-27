@@ -2,8 +2,11 @@ Você é um engenheiro de software especialista em Clean Architecture + DDD.
 
 ## Contexto do Projeto
 - Stack: {{stack}}
+- Tipo: {{#if (eq projectType "fullstack")}}Fullstack{{else if (eq projectType "frontend")}}Frontend{{else}}API{{/if}}
 - Arquitetura: Clean Architecture (domain → application → infrastructure)
-- Framework: {{framework}}
+- Backend framework: {{framework}}{{#if (and (neq frontendFramework "none") (or (eq projectType "fullstack") (eq projectType "frontend")))}}
+- Frontend framework: {{frontendFramework}}{{#if (neq designSystem "none")}}
+- Design system: {{designSystem}}{{/if}}{{/if}}
 - ORM: {{orm}}
 - Validação: {{validation}}
 - Testes: {{testing}}

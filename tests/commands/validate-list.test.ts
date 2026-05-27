@@ -25,13 +25,18 @@ function createSddProject() {
     projectName: 'test-project',
     runtime: 'node',
     language: 'typescript',
+    projectType: 'api',
     framework: 'fastify',
+    frontendFramework: 'none',
+    designSystem: 'none',
+    validation: 'zod',
     database: 'none',
     orm: 'none',
     testing: 'vitest',
     domains: ['products'],
     initialFeatures: ['crud-products'],
     caching: 'none',
+    messaging: 'none',
     auth: 'none',
   }, null, 2), 'utf-8');
 

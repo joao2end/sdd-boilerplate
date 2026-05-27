@@ -3,9 +3,26 @@
 ## Project
 - Name: {{projectName}}
 - Description: {{description}}
-- Stack: {{runtime}}/{{language}} + {{framework}} + {{validation}} + {{orm}}
-- Architecture: Clean Architecture (domain → application → infrastructure)
+- Type: {{projectType}}{{#if (neq frontendFramework "none")}}
+- Frontend: {{frontendFramework}}{{/if}}{{#if (neq designSystem "none")}}
+- Design system: {{designSystem}}{{/if}}
 
+{{#if (or (eq projectType "api") (eq projectType "fullstack"))}}
+## Backend Stack
+- Runtime: {{runtime}}/{{language}}
+- Framework: {{framework}}
+- Architecture: Clean Architecture (domain → application → infrastructure)
+- Database: {{database}}
+- ORM: {{orm}}
+- Validação: {{validation}}
+{{/if}}
+
+{{#if (or (eq projectType "frontend") (eq projectType "fullstack"))}}
+## Frontend Stack
+- Framework: {{frontendFramework}}{{#if (neq designSystem "none")}}
+- Design system: {{designSystem}}{{/if}}
+
+{{/if}}
 ## CRITICAL RULE: Spec-Driven Development
 Nunca implemente código sem antes verificar se existe uma spec correspondente.
 
@@ -24,10 +41,12 @@ Nunca implemente código sem antes verificar se existe uma spec correspondente.
 - "refatora", "melhora" → verifique spec, sugira atualizar spec primeiro
 
 ## Convenções
-- Linguagem: {{language}}
+- Linguagem: {{language}}{{#if (or (eq projectType "api") (eq projectType "fullstack"))}}
 - Framework: {{framework}}
-- Validação: {{validation}}
 - ORM: {{orm}}
-- Testes: {{testing}}
-- Clean Architecture estrita
+- Validação: {{validation}}{{/if}}
+- Testes: {{testing}}{{#if (or (eq projectType "frontend") (eq projectType "fullstack"))}}
+- Frontend: {{frontendFramework}}{{#if (neq designSystem "none")}}
+- Design system: {{designSystem}}{{/if}}{{/if}}
+- Clean Architecture estrita (quando aplicável)
 - TypeScript estrito (quando aplicável)

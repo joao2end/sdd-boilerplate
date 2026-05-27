@@ -16,6 +16,7 @@ vi.mock('@clack/prompts', () => {
     .mockResolvedValueOnce('bun')       // runtime
     .mockResolvedValueOnce('typescript') // language
     .mockResolvedValueOnce('fastify')    // framework
+    .mockResolvedValueOnce('api')        // projectType
     .mockResolvedValueOnce('zod')        // validation
     .mockResolvedValueOnce('postgresql') // database
     .mockResolvedValueOnce('drizzle')    // ORM
@@ -69,7 +70,10 @@ describe('init integration', () => {
     expect(config.projectName).toBe('test-project');
     expect(config.runtime).toBe('bun');
     expect(config.language).toBe('typescript');
+    expect(config.projectType).toBe('api');
     expect(config.framework).toBe('fastify');
+    expect(config.frontendFramework).toBe('none');
+    expect(config.designSystem).toBe('none');
     expect(config.validation).toBe('zod');
     expect(config.database).toBe('postgresql');
     expect(config.orm).toBe('drizzle');

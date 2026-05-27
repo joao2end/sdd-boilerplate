@@ -61,6 +61,41 @@ export async function initWizard(): Promise<{ projectDir: string; config: SddCon
   })) as SddConfig['framework'];
   if (isCancel(framework as unknown as string)) cancel('Cancelled');
 
+  const projectType = (await select({
+    message: 'Project type:',
+    options: [
+      { value: 'api', label: 'API only (backend)' },
+      { value: 'frontend', label: 'Frontend only' },
+      { value: 'fullstack', label: 'Fullstack (frontend + backend)' },
+    ],
+  })) as SddConfig['projectType'];
+  if (isCancel(projectType as unknown as string)) cancel('Cancelled');
+
+  let frontendFramework: SddConfig['frontendFramework'] = 'none';
+  let designSystem: SddConfig['designSystem'] = 'none';
+  if (projectType === 'frontend' || projectType === 'fullstack') {
+    frontendFramework = (await select({
+      message: 'Frontend framework:',
+      options: [
+        { value: 'react', label: 'React' },
+        { value: 'vue', label: 'Vue' },
+        { value: 'svelte', label: 'Svelte' },
+      ],
+    })) as SddConfig['frontendFramework'];
+    if (isCancel(frontendFramework as unknown as string)) cancel('Cancelled');
+
+    designSystem = (await select({
+      message: 'Design system:',
+      options: [
+        { value: 'shadcn', label: 'Shadcn/ui' },
+        { value: 'material-ui', label: 'Material UI' },
+        { value: 'tailwind', label: 'Tailwind (custom)' },
+        { value: 'none', label: 'None' },
+      ],
+    })) as SddConfig['designSystem'];
+    if (isCancel(designSystem as unknown as string)) cancel('Cancelled');
+  }
+
   const validation = (await select({
     message: 'Validation library:',
     options: [
@@ -147,7 +182,10 @@ export async function initWizard(): Promise<{ projectDir: string; config: SddCon
     description,
     runtime,
     language,
+    projectType,
     framework,
+    frontendFramework,
+    designSystem,
     validation,
     database,
     orm,

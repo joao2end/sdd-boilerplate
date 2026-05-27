@@ -6,7 +6,10 @@ export interface SddConfig {
   description: string;
   runtime: 'node' | 'bun';
   language: 'typescript' | 'javascript';
+  projectType: 'api' | 'frontend' | 'fullstack';
   framework: 'express' | 'fastify' | 'nestjs' | 'none';
+  frontendFramework: 'react' | 'vue' | 'svelte' | 'none';
+  designSystem: 'shadcn' | 'material-ui' | 'tailwind' | 'none';
   validation: 'zod' | 'valibot' | 'joi' | 'none';
   database: 'postgresql' | 'mysql' | 'sqlite' | 'none';
   orm: 'prisma' | 'drizzle' | 'typeorm' | 'knex' | 'none';

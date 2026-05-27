@@ -4,6 +4,11 @@ import { writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+Handlebars.registerHelper('eq', (a, b) => a === b);
+Handlebars.registerHelper('neq', (a, b) => a !== b);
+Handlebars.registerHelper('and', (...args) => args.slice(0, -1).every(Boolean));
+Handlebars.registerHelper('or', (...args) => args.slice(0, -1).some(Boolean));
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const DEV_TEMPLATES = join(__dirname, '..', '..', 'templates');
